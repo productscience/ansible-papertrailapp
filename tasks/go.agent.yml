@@ -1,0 +1,37 @@
+---
+  - name: fetch Papertrail App agent for app logs
+    get_url: >
+      url={{ papertrail_binary_download_url }}
+      dest={{ papertrail_binary_download_path }}
+
+  - name: untar papertrail binary
+    unarchive: >
+      src={{ papertrail_binary_download_path }}
+      dest=/var/www/ copy=no
+      creates=/var/www/remote_syslog
+
+  - name: symlink
+    file: >
+      src=/var/www/remote_syslog/remote_syslog
+      dest=/usr/local/bin/remote_syslog
+      state=link
+
+  - name: setup a directory for adhoc logging to papertrail
+    file: >
+      dest=/var/log/adhoc/
+      state=directory
+
+  - name: add necessary config file
+    template: >
+      src=log_files.yml.j2
+      dest={{ papertrail_conf_file }}
+
+  - name: add upstart config file
+    template: >
+      src=upstart.j2
+      dest=/etc/init/papertrail.conf
+
+  - name: activate remote syslog service
+    service: >
+      name=papertrail
+      state=started

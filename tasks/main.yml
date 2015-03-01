@@ -1,0 +1,32 @@
+---
+
+- name: Install dependencies for Papertrail - Ubuntu
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - libssl-dev
+    - rsyslog-gnutls
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install dependencies for Papertrail - CentOS
+  yum: name={{ item }} state=latest
+  with_items:
+      - libssl-dev
+      - rsyslog-gnutls
+  when: ansible_os_family == "RedHat"
+
+- name: Add Papertrail certificate bundle for logging securely
+  copy: >
+    src=papertrail.ca-bundle.pem
+    dest={{ papertrail_path_to_ca_bundle }}
+    owner=root group=root mode=0444
+  notify: restart rsyslog
+
+- name: Copy papertrail rsyslog.conf additions to activate logging
+  template: >
+    src=rsyslog.papertrail.conf.j2
+    dest=/etc/rsyslog.d/70-papertrail.conf
+    owner=root group=root mode=0444
+  notify: restart rsyslog
+
+- include: go.agent.yml
+  tags: wip

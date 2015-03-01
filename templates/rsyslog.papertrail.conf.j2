@@ -1,0 +1,32 @@
+{% if papertrail_log_over_tls %}
+$DefaultNetstreamDriverCAFile {{  papertrail_path_to_ca_bundle }} # trust these CAs
+$DefaultNetstreamDriver gtls # use gtls netstream driver
+$ActionSendStreamDriverMode 1 # require TLS
+$ActionSendStreamDriverAuthMode x509/name # authenticate by hostname
+
+
+# recover in case of TLS failure
+# for more, see
+# http://help.papertrailapp.com/kb/configuration/advanced-unix-logging-tips/#rsyslog_queue
+$ActionResumeInterval 10
+$ActionQueueSize 100000
+$ActionQueueDiscardMark 97500
+$ActionQueueHighWaterMark 80000
+$ActionQueueType LinkedList
+$ActionQueueFileName papertrailqueue
+$ActionQueueCheckpointInterval 100
+$ActionQueueMaxDiskSpace 2g
+$ActionResumeRetryCount -1
+$ActionQueueSaveOnShutdown on
+$ActionQueueTimeoutEnqueue 10
+$ActionQueueDiscardSeverity 0
+
+{% endif %}
+
+{% if papertrail_log_over_tls %}
+*.*          @@{{ papertrail_logging_host }}:{{  papertrail_logging_port }}
+{% endif %}
+
+{% if not papertrail_log_over_tls %}
+*.*          @{{ papertrail_logging_host }}:{{  papertrail_logging_port }}
+{% endif %}

@@ -1,0 +1,14 @@
+files:
+ - /var/log/nginx/*
+ - /var/log/uwsgi/*
+ - /var/log/postgresql/*
+ - /var/log/adhoc/*
+
+destination:
+  host: {{  papertrail_logging_host }}
+  port: {{  papertrail_logging_port }}
+  {% if papertrail_log_over_tls %}
+  protocol: tls
+  {% else %}
+  protocol: udp
+  {% endif %}
