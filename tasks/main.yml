@@ -27,8 +27,7 @@
   template: >
     src=rsyslog.papertrail.conf.j2
     dest=/etc/rsyslog.d/70-papertrail.conf
-    owner=root group=root mode=0444
+    owner=root group=root mode=0644
   notify: restart rsyslog
 
 - include: go.agent.yml
-  tags: wip

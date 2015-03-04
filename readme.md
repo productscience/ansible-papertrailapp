@@ -19,7 +19,7 @@ Usage
 ```yml
 vars:
   - papertrail_logging_host: logs2.papertrailapp.com
-  - papertrail_logging_port: 51234
+  - papertrail_logging_port: 12345
 
 roles:
  - productscience.papertrailapp

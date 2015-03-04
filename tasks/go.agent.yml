@@ -36,4 +36,4 @@
   - name: activate remote syslog service
     service: >
       name=papertrail
-      state=started
+      state=restarted
