@@ -18,7 +18,9 @@
   copy: >
     src=papertrail.ca-bundle.pem
     dest={{ papertrail_path_to_ca_bundle }}
-    owner=root group=root mode=0444
+    owner=root
+    group=root
+    mode=0644
   notify: restart rsyslog
 
 - name: Copy papertrail rsyslog.conf additions to activate logging

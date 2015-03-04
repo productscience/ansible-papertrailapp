@@ -1,9 +1,10 @@
 ---
 papertrail_binary_download_url: https://github.com/papertrail/remote_syslog2/releases/download/v0.13/remote_syslog_linux_amd64.tar.gz
-papertrail_binary_download_path: /var/www/remote_syslog_linux_amd64.tar.gz
-papertrail_remote_syslog: /usr/local/bin/remote_syslog/remote_syslog
+papertrail_binary_download_path: /var/local/remote_syslog_linux_amd64.tar.gz
+papertrail_remote_syslog: /usr/local/bin/remote_syslog
 papertrail_conf_file: /etc/papertrail_logging_dirs.yml
 papertrail_logging_host: logs.papertrailapp.com
 papertrail_logging_port: 514
-papertrail_log_over_tls: False
+papertrail_log_over_tls: True
+papertrail_protocol: tls
 papertrail_path_to_ca_bundle: /etc/syslog.papertrail-bundle.pem

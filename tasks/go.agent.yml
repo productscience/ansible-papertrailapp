@@ -7,12 +7,13 @@
   - name: untar papertrail binary
     unarchive: >
       src={{ papertrail_binary_download_path }}
-      dest=/var/www/ copy=no
-      creates=/var/www/remote_syslog
+      dest=/var/local/ copy=no
+      creates=/var/local/remote_syslog
+    tags: wip
 
   - name: symlink
     file: >
-      src=/var/www/remote_syslog/remote_syslog
+      src=/var/local/remote_syslog/remote_syslog
       dest=/usr/local/bin/remote_syslog
       state=link
 
@@ -20,6 +21,7 @@
     file: >
       dest=/var/log/adhoc/
       state=directory
+      mode=0777
 
   - name: add necessary config file
     template: >

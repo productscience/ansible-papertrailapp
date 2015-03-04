@@ -7,8 +7,4 @@ files:
 destination:
   host: {{  papertrail_logging_host }}
   port: {{  papertrail_logging_port }}
-  {% if papertrail_log_over_tls %}
-  protocol: tls
-  {% else %}
-  protocol: udp
-  {% endif %}
+  protocol: {{ papertrail_protocol }}
