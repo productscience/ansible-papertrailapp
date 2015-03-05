@@ -7,9 +7,9 @@
   - name: untar papertrail binary
     unarchive: >
       src={{ papertrail_binary_download_path }}
-      dest=/var/local/ copy=no
+      dest=/var/local/
+      copy=no
       creates=/var/local/remote_syslog
-    tags: wip
 
   - name: symlink
     file: >
