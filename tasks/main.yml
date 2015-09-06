@@ -1,11 +1,11 @@
 ---
 
-- name: Install dependencies for Papertrail - Ubuntu
+- name: Install dependencies for Papertrail - Debian/Ubuntu
   apt: name={{ item }} state=latest update_cache=yes
   with_items:
     - libssl-dev
     - rsyslog-gnutls
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_os_family == "Debian"
 
 - name: Install dependencies for Papertrail - CentOS
   yum: name={{ item }} state=latest
@@ -21,6 +21,13 @@
     owner=root
     group=root
     mode=0644
+  notify: restart rsyslog
+
+- name: Copy papertrail rsyslog.conf additions to activate logging
+  template: >
+    src=rsyslog.papertrail.conf.j2
+    dest=/etc/rsyslog.d/70-papertrail.conf
+    owner=root group=root mode=0644
   notify: restart rsyslog
 
 - name: Copy papertrail rsyslog.conf additions to activate logging

@@ -32,6 +32,16 @@
     template: >
       src=upstart.j2
       dest=/etc/init/papertrail.conf
+    when: ansible_distribution == "Ubuntu"
+
+  - name: add debian init file
+    template: >
+      src=sysvinit.j2
+      dest=/etc/init.d/papertrail
+      mode=0755
+    when: ansible_distribution == "Debian"
+
+
 
   - name: activate remote syslog service
     service: >

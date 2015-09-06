@@ -1,0 +1,31 @@
+#! /bin/bash
+# /etc/init.d/papertrail
+#
+
+daemon={{ papertrail_remote_syslog }}
+pid=/var/run/papertrail-master.pid
+args=" -c {{ papertrail_conf_file }}"
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+    start)
+        echo "Starting Papertrail Remote Syslog"
+        start-stop-daemon -p $pid --start --exec $daemon -- $args
+        ;;
+    stop)
+        echo "Papertrail Remote Syslog"
+        start-stop-daemon --signal INT -p $pid --stop $daemon -- $args
+        ;;
+    reload)
+        echo "Reloading conf"
+        kill -HUP $(cat $pid)
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: /etc/init.d/papertrail {start|stop|reload}"
+        exit 1
+    ;;
+esac
